@@ -1,0 +1,67 @@
+<div class="container">
+  <h1>Form Component</h1>
+  <!--We can pass f as argument as catch it in onSubmit Function-->
+  <form (ngSubmit)="onSubmitForm()" #f="ngForm">
+
+    <!--ngModelGroup is added to group up the user name and email and to check up their validity as a group-->
+    <div id="user-data"
+         ngModelGroup="userInfo" #userInfo="ngModelGroup">
+
+      <div class="form-group">
+        <label for="user-name">UserName</label>
+        <input type="text" id="user-name" class="form-control"
+        name="username" ngModel required>
+      </div>
+
+      <button class="btn btn-default">Suggest User Name</button>
+
+      <!--We have used #email coz we wanted to have reference to the email properties while showing validation msg-->
+      <!--We used #email=ngmodel coz we wanted to continuously watch the changing value to validate it and show the msg-->
+      <div class="form-group">
+        <label for="email"> Email</label>
+        <input type="email" id="email" class="form-control"
+        name="email" ngModel required email #email="ngModel">
+        <span class="help-block" *ngIf="email.invalid && email.touched">Please Enter Valid Email</span>
+      </div>
+
+      <p *ngIf="userInfo.invalid && userInfo.touched">User Info is Invalid!</p>
+    </div>
+
+    <div class="form-group">
+
+      <label for="secret-question"> Secret Question</label>
+      <select id="secret-question" class="form-control"
+      name="secret" [ngModel]="defaultQuestion">
+        <option value="pet">Your First Pet</option>
+        <option value="teacher">Your First Teacher</option>
+      </select>
+<br>
+      <div class="form-group">
+        <textarea class="form-control" name="qAnswer" rows="3" [(ngModel)]="answer"></textarea>
+      </div>
+
+      <p>Your Answer: {{answer}}</p>
+    </div>
+
+    <div class="radio" *ngFor="let gender of genders">
+      <label>
+        <input type="radio" ngModel value="gender" name="gender">{{gender}}
+      </label>
+    </div>
+    <button class="btn btn-primary" type="submit"
+    [disabled]="f.invalid">Submit</button>
+
+  </form>
+
+  <br>
+  <div class="row" *ngIf="submitted">
+    <div class="col-md-12">
+      <h3>Your Data</h3>
+      <p>UserName: {{user.name}}</p>
+      <p>Email: {{user.email}}</p>
+      <p>Question: {{user.question}}</p>
+      <p>Answer: {{user.answer}}</p>
+      <p>Gender: {{user.gender}}</p>
+    </div>
+  </div>
+</div>
